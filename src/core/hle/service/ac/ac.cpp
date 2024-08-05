@@ -169,6 +169,44 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
+void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const u32 len = rp.Pop<u32>();
+    const u32 pid = rp.PopPID();
+    
+    constexpr const char* citra_ap = "Citra_AP";
+    constexpr s16 good_signal_strength = 60;
+    constexpr u8 unknown1_value = 6;
+    constexpr u8 unknown2_value = 5;
+    constexpr u8 unknown3_value = 5;
+    constexpr u8 unknown4_value = 0;
+
+    SharedPage::Handler& shared_page = ac->system.Kernel().GetSharedPageHandler();
+    SharedPage::MacAddress mac = shared_page.GetMacAddress();
+
+    APInfo info{
+        .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
+        .bssid = mac,
+        .padding = 0,
+        .signal_strength = good_signal_strength,
+        .link_level = static_cast<u8>(shared_page.GetWifiLinkLevel()),
+        .unknown1 = unknown1_value,
+        .unknown2 = unknown2_value,
+        .unknown3 = unknown3_value,
+        .unknown4 = unknown4_value,
+    };
+    std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
+
+    std::vector<u8> out_info(len);
+    std::memcpy(out_info.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push<u32>(static_cast<u32>(InfraPriority::PRIORITY_HIGH));
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 void Module::Interface::GetStatus(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
