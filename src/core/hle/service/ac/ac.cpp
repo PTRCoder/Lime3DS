@@ -172,14 +172,12 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
 void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    const u32 pid = rp.PopPID();
-
-    LOG_DEBUG(Service_AC, "Popped the PID");
-
     auto buffer = rp.PopStaticBuffer();
     LOG_DEBUG(Service_AC, "Popped the buffer");
     const u32 len = rp.Pop<u32>();
     LOG_DEBUG(Service_AC, "Popped the buffer size");
+    const u32 pid = rp.PopPID();
+    LOG_DEBUG(Service_AC, "Popped the PID");
     
     constexpr const char* citra_ap = "Lime3DS_AP";
     constexpr s16 good_signal_strength = 60;
