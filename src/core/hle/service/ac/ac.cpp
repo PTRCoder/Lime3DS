@@ -171,8 +171,10 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
 
 void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const u32 len = rp.Pop<u32>();
+
     const u32 pid = rp.PopPID();
+
+    auto buffer = rp.PopStaticBuffer();
     
     constexpr const char* citra_ap = "Citra_AP";
     constexpr s16 good_signal_strength = 60;
@@ -197,12 +199,9 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     };
     std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
 
-    std::vector<u8> out_info(len);
-    std::memcpy(out_info.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
-
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
-    rb.PushStaticBuffer(out_info, 0);
+    rb.PushStaticBuffer(buffer, 0);
 
     LOG_WARNING(Service_AC, "(STUBBED) called, pid={}", pid);
 }
