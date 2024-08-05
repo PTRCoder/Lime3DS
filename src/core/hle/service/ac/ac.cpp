@@ -175,7 +175,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     const u32 pid = rp.PopPID();
 
     auto buffer = rp.PopStaticBuffer();
-    const u32 len = rp.Pop<u32>()
+    const u32 len = rp.Pop<u32>();
     
     constexpr const char* citra_ap = "Citra_AP";
     constexpr s16 good_signal_strength = 60;
