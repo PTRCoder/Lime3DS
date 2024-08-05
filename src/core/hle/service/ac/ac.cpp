@@ -175,6 +175,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     const u32 pid = rp.PopPID();
 
     auto buffer = rp.PopStaticBuffer();
+    const u32 len = rp.Pop<u32>()
     
     constexpr const char* citra_ap = "Citra_AP";
     constexpr s16 good_signal_strength = 60;
@@ -198,6 +199,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
         .unknown4 = unknown4_value,
     };
     std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
+    std::memcpy(buffer.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
