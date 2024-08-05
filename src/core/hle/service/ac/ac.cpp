@@ -184,7 +184,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     SharedPage::Handler& shared_page = ac->system.Kernel().GetSharedPageHandler();
     SharedPage::MacAddress mac = shared_page.GetMacAddress();
 
-    APInfo info{
+    APInfo info {
         .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
         .bssid = mac,
         .padding = 0,
@@ -204,7 +204,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
     rb.Push<u32>(static_cast<u32>(InfraPriority::PRIORITY_HIGH));
 
-    LOG_WARNING(Service_AC, "(STUBBED) called");
+    LOG_WARNING(Service_AC, "(STUBBED) called, pid={}", pid);
 }
 
 void Module::Interface::GetStatus(Kernel::HLERequestContext& ctx) {
