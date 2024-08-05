@@ -173,7 +173,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     auto buffer = rp.PopStaticBuffer();
-    const u32 len = rp.Pop<u32>();
+    const size_t len = rp.Pop<size_t>();
     
     constexpr const char* citra_ap = "Lime3DS_AP";
     constexpr s16 good_signal_strength = 60;
@@ -196,8 +196,11 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
         .unknown3 = unknown3_value,
         .unknown4 = unknown4_value,
     };
+    LOG_WARNING(Service_AC, "Created APInfo");
     std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
+    LOG_WARNING(Service_AC, "Finished APInfo");
     std::memcpy(buffer.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
+    LOG_WARNING(Service_AC, "Copied APInfo to buffer");
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
