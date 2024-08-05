@@ -200,7 +200,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     std::vector<u8> out_info(len);
     std::memcpy(out_info.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
 
-    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
     rb.PushStaticBuffer(out_info, 0);
 
