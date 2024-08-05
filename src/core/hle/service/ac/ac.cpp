@@ -202,7 +202,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push<u32>(static_cast<u32>(InfraPriority::PRIORITY_HIGH));
+    rb.PushStaticBuffer(out_info, 0);
 
     LOG_WARNING(Service_AC, "(STUBBED) called, pid={}", pid);
 }
