@@ -173,7 +173,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     auto buffer = rp.PopStaticBuffer();
-    const size_t len = rp.Pop<size_t>();
+    const u32 len = rp.Pop<u32>();
     
     constexpr const char* citra_ap = "Lime3DS_AP";
     constexpr s16 good_signal_strength = 60;
