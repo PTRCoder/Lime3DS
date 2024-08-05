@@ -171,40 +171,45 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
 
 void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-
-    auto buffer = rp.PopStaticBuffer();
-    const u32 len = rp.Pop<u32>();
+    const void * buffer = rp.Pop<void*>();
+    LOG_WARNING(Service_AC, "buffer loc: {}", buffer);
+    const size_t len = rp.Pop<size_t>();
+    LOG_WARNING(Service_AC, "len: {}", len);
+    const u8 subID = rp.Pop<u8>();
+    LOG_WARNING(Service_AC, "subID: {}", subID);
+    const u32 localID = rp.Pop<u32>();
+    LOG_WARNING(Service_AC, "localID: {}", localID);
     
-    constexpr const char* citra_ap = "Lime3DS_AP";
-    constexpr s16 good_signal_strength = 60;
-    constexpr u8 unknown1_value = 6;
-    constexpr u8 unknown2_value = 5;
-    constexpr u8 unknown3_value = 5;
-    constexpr u8 unknown4_value = 0;
+    // constexpr const char* citra_ap = "Lime3DS_AP";
+    // constexpr s16 good_signal_strength = 60;
+    // constexpr u8 unknown1_value = 6;
+    // constexpr u8 unknown2_value = 5;
+    // constexpr u8 unknown3_value = 5;
+    // constexpr u8 unknown4_value = 0;
 
-    SharedPage::Handler& shared_page = ac->system.Kernel().GetSharedPageHandler();
-    SharedPage::MacAddress mac = shared_page.GetMacAddress();
+    // SharedPage::Handler& shared_page = ac->system.Kernel().GetSharedPageHandler();
+    // SharedPage::MacAddress mac = shared_page.GetMacAddress();
 
-    APInfo info{
-        .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
-        .bssid = mac,
-        .padding = 0,
-        .signal_strength = good_signal_strength,
-        .link_level = static_cast<u8>(shared_page.GetWifiLinkLevel()),
-        .unknown1 = unknown1_value,
-        .unknown2 = unknown2_value,
-        .unknown3 = unknown3_value,
-        .unknown4 = unknown4_value,
-    };
-    LOG_WARNING(Service_AC, "Created APInfo");
-    std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
-    LOG_WARNING(Service_AC, "Finished APInfo");
-    std::memcpy(buffer.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
-    LOG_WARNING(Service_AC, "Copied APInfo to buffer");
+    // APInfo info{
+    //     .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
+    //     .bssid = mac,
+    //     .padding = 0,
+    //     .signal_strength = good_signal_strength,
+    //     .link_level = static_cast<u8>(shared_page.GetWifiLinkLevel()),
+    //     .unknown1 = unknown1_value,
+    //     .unknown2 = unknown2_value,
+    //     .unknown3 = unknown3_value,
+    //     .unknown4 = unknown4_value,
+    // };
+    // LOG_WARNING(Service_AC, "Created APInfo");
+    // std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
+    // LOG_WARNING(Service_AC, "Finished APInfo");
+    // std::memcpy(buffer.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
+    // LOG_WARNING(Service_AC, "Copied APInfo to buffer");
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
-    rb.PushStaticBuffer(buffer, 0);
+    // rb.PushStaticBuffer(buffer, 0);
 
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
