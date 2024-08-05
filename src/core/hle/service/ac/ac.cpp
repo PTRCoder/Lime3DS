@@ -173,11 +173,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     auto buffer = rp.PopStaticBuffer();
-    LOG_DEBUG(Service_AC, "Popped the buffer");
     const u32 len = rp.Pop<u32>();
-    LOG_DEBUG(Service_AC, "Popped the buffer size");
-    const u32 pid = rp.PopPID();
-    LOG_DEBUG(Service_AC, "Popped the PID");
     
     constexpr const char* citra_ap = "Lime3DS_AP";
     constexpr s16 good_signal_strength = 60;
@@ -200,17 +196,14 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
         .unknown3 = unknown3_value,
         .unknown4 = unknown4_value,
     };
-    LOG_DEBUG(Service_AC, "Created APInfo");
     std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
-    LOG_DEBUG(Service_AC, "Copied string");
     std::memcpy(buffer.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
-    LOG_DEBUG(Service_AC, "Copied APInfo to buffer");
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
     rb.Push(ResultSuccess);
     rb.PushStaticBuffer(buffer, 0);
 
-    LOG_WARNING(Service_AC, "(STUBBED) called, pid={}", pid);
+    LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
 void Module::Interface::GetStatus(Kernel::HLERequestContext& ctx) {
