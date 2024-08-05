@@ -187,7 +187,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     SharedPage::Handler& shared_page = ac->system.Kernel().GetSharedPageHandler();
     SharedPage::MacAddress mac = shared_page.GetMacAddress();
 
-    APInfo info {
+    APInfo info{
         .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
         .bssid = mac,
         .padding = 0,
