@@ -172,6 +172,8 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
 void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     
+    const size_t total = rp.TotalSize();
+    LOG_WARNING(Service_AC, "total bits: {}", total);
     const u32 buffer_ptr = rp.Pop<u32>();
     LOG_WARNING(Service_AC, "ptr: {}", buffer_ptr);
     const u32 len = rp.Pop<u32>();
