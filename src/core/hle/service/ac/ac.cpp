@@ -171,8 +171,7 @@ void Module::Interface::GetConnectingInfraPriority(Kernel::HLERequestContext& ct
 
 void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const void * buffer = rp.Pop<void*>();
-    LOG_WARNING(Service_AC, "buffer loc: {}", buffer);
+    
     const size_t len = rp.Pop<size_t>();
     LOG_WARNING(Service_AC, "len: {}", len);
     const u8 subID = rp.Pop<u8>();
