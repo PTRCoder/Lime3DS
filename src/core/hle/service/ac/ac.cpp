@@ -174,7 +174,7 @@ void Module::Interface::ScanAPs(Kernel::HLERequestContext& ctx) {
     
     const u32 buffer_ptr = rp.Pop<u32>();
     LOG_WARNING(Service_AC, "ptr: {}", buffer_ptr);
-    const size_t len = rp.Pop<size_t>();
+    const u32 len = rp.Pop<u32>();
     LOG_WARNING(Service_AC, "len: {}", len);
     const u8 subID = rp.Pop<u8>();
     LOG_WARNING(Service_AC, "subID: {}", subID);
